@@ -110,6 +110,5 @@ build:
     - docker version
     - docker build -t my-app .
 
-
 ![Final test WEB-UI](screens/10.png)
 
