@@ -54,7 +54,7 @@ VM физически была создана, но `vagrant up` заверши�
 
 ```bash
 cat /etc/gitlab/initial_root_password
-
+```
 Входим в web-interface:
 
 ![Start Page](screens/7.png)
@@ -109,6 +109,6 @@ build:
     - echo "Сборка Docker образа на Shell runner"
     - docker version
     - docker build -t my-app .
-
+```
 ![Final test WEB-UI](screens/10.png)
 
