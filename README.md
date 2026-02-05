@@ -55,3 +55,61 @@ VM физически была создана, но `vagrant up` заверши�
 ```bash
 cat /etc/gitlab/initial_root_password
 
+Входим в web-interface:
+
+![Start Page](screens/7.png)
+
+#### 7. Создание нового проекта в GitLab
+
+![New Project](screens/8.png)
+
+#### 8. Регистрация gitlab-runner (Docker)
+
+![New runner](screens/9.png)
+
+![Check runner](screens/9.1.png)
+
+![Check runner WEB-UI](screens/9.2.png)
+
+
+
+## Задание 2
+
+### Что нужно сделать
+
+1. Запушить репозиторий на GitLab, изменив `origin` (изучалось на занятии по Git).
+2. Создать файл `.gitlab-ci.yml`, описав в нём необходимые этапы.
+3. В качестве ответа добавить:
+   - файл `.gitlab-ci.yml` для своего проекта или вставить его содержимое;
+   - скриншоты с успешно собранными сборками.
+
+---
+
+### Содержимое `.gitlab-ci.yml`
+
+```yaml
+stages:
+  - test
+  - build
+
+# Тестирование кода Go
+test:
+  stage: test
+  image: golang:1.17
+  script:
+    - go version
+    - go test .
+
+# Сборка Docker-образа на Shell runner
+build:
+  stage: build
+  tags:
+    - runers  # тег Shell runner
+  script:
+    - echo "Сборка Docker образа на Shell runner"
+    - docker version
+    - docker build -t my-app .
+
+
+![Final test WEB-UI](screens/10.png)
+
