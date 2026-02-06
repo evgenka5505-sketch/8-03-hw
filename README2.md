@@ -77,3 +77,18 @@ systemctl status zabbix-server.service
 
 ### Результат выполнения
 
+![Скриншот раздела Data collection>Hosts](screens/z3.png)
+Скриншот раздела Data Collection > Hosts, где видно, что агенты подключены к серверу
+
+![Скриншот раздела Monitoring>Latest data](screens/z4.png)
+Скриншот раздела Monitoring > Latest data для обоих хостов, где видны поступающие от агентов данные
+
+
+### Текст использованных команд
+
+```bash
+apt install zabbix-agent
+systemctl restart zabbix-agent
+systemctl enable zabbix-agent
+nano /etc/zabbix/zabbix_agentd.conf
+```
