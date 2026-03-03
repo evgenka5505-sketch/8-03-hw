@@ -58,10 +58,13 @@ backend python_back
 
 ```
 ![Терминал 1](screens/Terminal-1.png)
+Терминал 1
 
 ![Терминал 2](screens/Terminal-2.png)
+Терминал 2
 
 ![Проверка через HAProxy](screens/Test.png)
+Проверка через HAProxy
 
 ---
 
@@ -131,10 +134,13 @@ backend default_back
 ```
 
 ![Обращение БЕЗ домена](screens/Ex.2-no domen.png)
+Обращение БЕЗ домена
 
 ![Обращение С доменом](screens/Ex.2-with domen.png)
+Обращение С доменом
 
 ![Проверка Weighted Round Robin](screens/Ex.2-WRR.png)
+Проверка Weighted Round Robin
 
 SERVER 3 будет появляться чаще всего, потому что weight 4.
 
