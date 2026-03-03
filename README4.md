@@ -17,7 +17,8 @@
 
 ### Результат выполнения
 
-Конфигурационный файл HAProxy с алгоритмом Round-robin на 4 уровне
+Конфигурационный файл HAProxy с алгоритмом Round-robin на 4 уровне. 
+Файл конфигурации находится в директории `/conf/HAProxy1.cfg`
 
 ```
 global
@@ -87,6 +88,7 @@ backend python_back
 ### Результат выполнения
 
 Конфигурационный файл HAProxy с балансировкой Weighted  Round robin на 7 уровне
+Файл конфигурации находится в директории `/conf/HAProxy2.cfg`
 
 ```
 global
@@ -136,17 +138,14 @@ backend default_back
     http-request return status 503 content-type text/plain string "Wrong domain"
 ```
 
+Обращение БЕЗ домена
 ![Обращение БЕЗ домена](screens/Ex.2-no-domen.png)
 
-Обращение БЕЗ домена
-
+Обращение С доменом
 ![Обращение С доменом](screens/Ex.2-with-domen.png)
 
-Обращение С доменом
-
-![Проверка Weighted Round Robin](screens/Ex.2-WRR.png)
-
 Проверка Weighted Round Robin
+![Проверка Weighted Round Robin](screens/Ex.2-WRR.png)
 
 SERVER 3 будет появляться чаще всего, потому что weight 4.
 
