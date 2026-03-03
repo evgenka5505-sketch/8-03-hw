@@ -139,12 +139,15 @@ backend default_back
 ```
 
 Обращение БЕЗ домена
+
 ![Обращение БЕЗ домена](screens/Ex.2-no-domen.png)
 
 Обращение С доменом
+
 ![Обращение С доменом](screens/Ex.2-with-domen.png)
 
 Проверка Weighted Round Robin
+
 ![Проверка Weighted Round Robin](screens/Ex.2-WRR.png)
 
 SERVER 3 будет появляться чаще всего, потому что weight 4.
