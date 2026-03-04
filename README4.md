@@ -58,10 +58,13 @@ backend python_back
 
 ```
 ![Терминал 1](screens/Terminal-1.png)
+Терминал 1
 
 ![Терминал 2](screens/Terminal-2.png)
+Терминал 2
 
 ![Проверка через HAProxy](screens/Test.png)
+Проверка через HAProxy
 
 ---
 
