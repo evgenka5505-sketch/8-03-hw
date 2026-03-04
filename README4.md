@@ -17,7 +17,8 @@
 
 ### Результат выполнения
 
-Конфигурационный файл HAProxy с алгоритмом Round-robin на 4 уровне
+Конфигурационный файл HAProxy с алгоритмом Round-robin на 4 уровне. 
+Файл конфигурации находится в директории [HAProxy1.cfg](/conf/HAProxy1.cfg)
 
 ```
 global
@@ -60,10 +61,16 @@ backend python_back
 ![Терминал 1](screens/Terminal-1.png)
 Терминал 1
 
+Терминал 1
+
 ![Терминал 2](screens/Terminal-2.png)
 Терминал 2
 
+Терминал 2
+
 ![Проверка через HAProxy](screens/Test.png)
+Проверка через HAProxy
+
 Проверка через HAProxy
 
 ---
@@ -84,6 +91,7 @@ backend python_back
 ### Результат выполнения
 
 Конфигурационный файл HAProxy с балансировкой Weighted  Round robin на 7 уровне
+Файл конфигурации находится в директории [HAProxy2.cfg](/conf/HAProxy2.cfg)
 
 ```
 global
@@ -133,9 +141,15 @@ backend default_back
     http-request return status 503 content-type text/plain string "Wrong domain"
 ```
 
-![Обращение БЕЗ домена](screens/Ex.2-no domen.png)
+Обращение БЕЗ домена
 
-![Обращение С доменом](screens/Ex.2-with domen.png)
+![Обращение БЕЗ домена](screens/Ex.2-no-domen.png)
+
+Обращение С доменом
+
+![Обращение С доменом](screens/Ex.2-with-domen.png)
+
+Проверка Weighted Round Robin
 
 ![Проверка Weighted Round Robin](screens/Ex.2-WRR.png)
 
