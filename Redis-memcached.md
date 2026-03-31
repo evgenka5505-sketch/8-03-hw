@@ -91,6 +91,3 @@ OK
 ![Redis keys](https://github.com/evgenka5505-sketch/8-03-hw/blob/main/img/redis-4.png)
 
 ---
-
-![Redis incrby](https://raw.githubusercontent.com/irbis36/FOPS-35-gitlab-hw/main/screenshots/task5-incrby.png)
----
