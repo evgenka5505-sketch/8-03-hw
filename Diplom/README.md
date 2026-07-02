@@ -58,6 +58,8 @@
 
 ![VPC](screenshots/Screenshot_2.png)
 
+*Рис. 1 — Консоль Yandex Cloud: облачные сети. Создана сеть `diplom-network` для размещения всей инфраструктуры проекта.*
+
 **Security Groups** настроены для каждого сервиса, ограничивая входящий трафик только нужными портами:
 
 | Security Group | Входящие порты |
@@ -70,6 +72,8 @@
 | alb-sg | 80, 443, healthchecks |
 
 ![Security Groups](screenshots/Screenshot_3.png)
+
+*Рис. 2 — Консоль Yandex Cloud: группы безопасности. Для каждого сервиса создана отдельная Security Group с правилами входящего трафика, ограниченными только необходимыми портами.*
 
 ---
 
@@ -88,6 +92,8 @@
 
 ![Виртуальные машины](screenshots/Screenshot_1.png)
 
+*Рис. 3 — Консоль Yandex Cloud: список виртуальных машин. Все 6 ВМ в статусе Running. Веб-серверы и Elasticsearch размещены в приватных подсетях (без публичного IP), остальные сервисы — в публичных.*
+
 ---
 
 ## Сайт
@@ -103,6 +109,8 @@
 
 ![ALB](screenshots/Screenshot_13.png)
 
+*Рис. 4 — Консоль Yandex Cloud: Application Load Balancer `web-alb` в статусе Active. Балансировщик привязан к HTTP-роутеру `web-http-router`, публичный IP — 158.160.216.69.*
+
 ### Проверка работоспособности
 
 ```
@@ -111,7 +119,7 @@ curl -v http://158.160.216.69:80
 
 ![curl ALB](screenshots/Screenshot_4.png)
 
-Балансировщик работает, распределяет трафик между web-1 и web-2.
+*Рис. 5 — Результат выполнения `curl -v` к публичному IP балансировщика. Получен ответ HTTP/1.1 200 OK от сервера ycalb (Yandex Cloud ALB). Страница отдана с web-2, что подтверждает работу балансировки трафика между двумя веб-серверами.*
 
 ---
 
@@ -125,9 +133,13 @@ curl -v http://158.160.216.69:80
 
 ![Zabbix Setup](screenshots/Screenshot_5.png)
 
+*Рис. 6 — Мастер установки Zabbix 7.0. Первоначальная настройка веб-интерфейса Zabbix через браузер по адресу http://89.169.154.238/zabbix.*
+
 ### Главный дашборд
 
 ![Zabbix Global Dashboard](screenshots/Screenshot_6.png)
+
+*Рис. 7 — Главный дашборд Zabbix (Global view). Zabbix Server запущен и работает (версия 7.0.27), принимает 1.73 значения в секунду. Отображается информация о хостах, шаблонах, триггерах и текущих проблемах.*
 
 ### Хосты с Zabbix Agent
 
@@ -143,6 +155,8 @@ curl -v http://158.160.216.69:80
 
 ![Zabbix Hosts](screenshots/Screenshot_7.png)
 
+*Рис. 8 — Zabbix: список хостов (Data collection → Hosts). Все 5 хостов в статусе Enabled с зелёным индикатором ZBX, что подтверждает успешное подключение Zabbix Agent на каждой ВМ. Каждый хост использует шаблон `Linux by Zabbix agent` с 68 элементами данных, 25 триггерами и 14 графиками.*
+
 ### Дашборд USE Metrics
 
 Настроен дашборд с отображением метрик по принципу USE для веб-серверов:
@@ -154,11 +168,15 @@ curl -v http://158.160.216.69:80
 
 ![USE Metrics Dashboard](screenshots/Screenshot_8.png)
 
+*Рис. 9 — Zabbix: пользовательский дашборд «USE Metrics». Отображаются 4 графика по принципу USE (Utilization, Saturation, Errors) для веб-серверов web-1 и web-2: загрузка CPU, использование памяти, сетевой трафик (Bits received/sent на интерфейсе eth0) и использование дискового пространства.*
+
 ### Triggers / Thresholds
 
 Триггеры настроены через шаблон `Linux by Zabbix agent` и включают пороговые значения для CPU, RAM, дисков, сети, файловой системы.
 
 ![Zabbix Triggers](screenshots/Screenshot_9.png)
+
+*Рис. 10 — Zabbix: список триггеров для хоста web-1 (25 триггеров). Настроены пороговые значения различных уровней severity: Information (изменение /etc/passwd, лимиты файловых дескрипторов и процессов), Average (файловая система read-only, критический уровень свободных inodes), Warning (предупреждение о свободных inodes). Все триггеры в состоянии OK.*
 
 ---
 
@@ -193,11 +211,15 @@ curl -v http://158.160.216.69:80
 
 ![Kibana Welcome](screenshots/Screenshot_10.png)
 
+*Рис. 11 — Главная страница Kibana (Welcome to Elastic). Kibana успешно запущена и доступна по адресу http://51.250.78.121:5601. Подключение к Elasticsearch установлено.*
+
 ### Kibana Discover — логи nginx
 
 Создан Data View `filebeat-*`. В Discover отображаются логи nginx access и error с обоих веб-серверов (2362 документа).
 
 ![Kibana Discover](screenshots/Screenshot_11.png)
+
+*Рис. 12 — Kibana: раздел Discover с Data View `filebeat-*`. Отображаются 2362 документа — логи nginx access.log с обоих веб-серверов (web-1 и web-2). Видны поля: @timestamp, agent.hostname, fields.type (nginx-access), host.name, log.file.path (/var/log/nginx/access.log), message (GET-запросы с кодом 200). Данные поступают с обоих серверов через Filebeat в Elasticsearch.*
 
 ---
 
@@ -210,6 +232,8 @@ curl -v http://158.160.216.69:80
 - **Диски**: bastion, web-1, web-2, zabbix, elastic, kibana
 
 ![Snapshot Schedule](screenshots/Screenshot_12.png)
+
+*Рис. 13 — Консоль Yandex Cloud: расписание снимков дисков. Расписание `daily-snapshot` в статусе Active, настроено на ежедневное создание снимков в 03:00 с хранением последних 7 снимков.*
 
 ---
 
@@ -258,4 +282,3 @@ elastic_internal_ip = "192.168.20.25"
 | Сайт (ALB) | http://158.160.216.69 |
 | Zabbix | http://89.169.154.238/zabbix (Admin / zabbix) |
 | Kibana | http://51.250.78.121:5601 |
-
