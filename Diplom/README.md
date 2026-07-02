@@ -69,7 +69,7 @@
 | kibana-sg | 5601 (Kibana), 22, 10050 |
 | alb-sg | 80, 443, healthchecks |
 
-![Security Groups](screenshots/03_security_groups.png)
+![Security Groups](screenshots/Screenshot_3.png)
 
 ---
 
@@ -86,7 +86,7 @@
 | elastic | ru-central1-a | private-a | — | Elasticsearch |
 | kibana | ru-central1-a | public-a | 51.250.78.121 | Kibana |
 
-![Виртуальные машины](screenshots/01_vms.png)
+![Виртуальные машины](screenshots/Screenshot_1.png)
 
 ---
 
@@ -101,7 +101,7 @@
 - **HTTP Router** — маршрут `/` → backend group
 - **Application Load Balancer** — listener на порт 80, публичный IP: 158.160.216.69
 
-![ALB](screenshots/13_alb.png)
+![ALB](screenshots/Screenshot_13.png)
 
 ### Проверка работоспособности
 
@@ -109,7 +109,7 @@
 curl -v http://158.160.216.69:80
 ```
 
-![curl ALB](screenshots/04_curl_alb.png)
+![curl ALB](screenshots/Screenshot_4.png)
 
 Балансировщик работает, распределяет трафик между web-1 и web-2.
 
@@ -123,11 +123,11 @@ curl -v http://158.160.216.69:80
 
 ### Установка Zabbix
 
-![Zabbix Setup](screenshots/05_zabbix_setup.png)
+![Zabbix Setup](screenshots/Screenshot_5.png)
 
 ### Главный дашборд
 
-![Zabbix Global Dashboard](screenshots/06_zabbix_dashboard_global.png)
+![Zabbix Global Dashboard](screenshots/Screenshot_6.png)
 
 ### Хосты с Zabbix Agent
 
@@ -141,7 +141,7 @@ curl -v http://158.160.216.69:80
 | kibana | 192.168.10.19 | ZBX ✅ |
 | Zabbix server | 127.0.0.1 | ZBX ✅ |
 
-![Zabbix Hosts](screenshots/07_zabbix_hosts.png)
+![Zabbix Hosts](screenshots/Screenshot_7.png)
 
 ### Дашборд USE Metrics
 
@@ -152,13 +152,13 @@ curl -v http://158.160.216.69:80
 - **Network traffic** — Bits received/sent (web-1, web-2)
 - **Disk space usage** — FS [/] Space Used (web-1, web-2)
 
-![USE Metrics Dashboard](screenshots/08_zabbix_use_metrics.png)
+![USE Metrics Dashboard](screenshots/Screenshot_8.png)
 
 ### Triggers / Thresholds
 
 Триггеры настроены через шаблон `Linux by Zabbix agent` и включают пороговые значения для CPU, RAM, дисков, сети, файловой системы.
 
-![Zabbix Triggers](screenshots/09_zabbix_triggers.png)
+![Zabbix Triggers](screenshots/Screenshot_9.png)
 
 ---
 
@@ -191,13 +191,13 @@ curl -v http://158.160.216.69:80
 
 Доступ к веб-интерфейсу: http://51.250.78.121:5601
 
-![Kibana Welcome](screenshots/10_kibana_welcome.png)
+![Kibana Welcome](screenshots/Screenshot_10.png)
 
 ### Kibana Discover — логи nginx
 
 Создан Data View `filebeat-*`. В Discover отображаются логи nginx access и error с обоих веб-серверов (2362 документа).
 
-![Kibana Discover](screenshots/11_kibana_discover.png)
+![Kibana Discover](screenshots/Screenshot_11.png)
 
 ---
 
@@ -209,7 +209,7 @@ curl -v http://158.160.216.69:80
 - **Хранение**: последние 7 снимков (неделя)
 - **Диски**: bastion, web-1, web-2, zabbix, elastic, kibana
 
-![Snapshot Schedule](screenshots/12_snapshots.png)
+![Snapshot Schedule](screenshots/Screenshot_12.png)
 
 ---
 
