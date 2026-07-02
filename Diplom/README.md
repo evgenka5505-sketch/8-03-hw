@@ -56,7 +56,7 @@
 
 **Облачные сети:**
 
-![VPC](screenshots/02_vpc.png)
+![VPC](screenshots/Screenshot_2.png)
 
 **Security Groups** настроены для каждого сервиса, ограничивая входящий трафик только нужными портами:
 
