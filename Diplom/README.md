@@ -9,11 +9,13 @@
 - [Задача](#задача)
 - [Инфраструктура](#инфраструктура)
 - [Сеть](#сеть)
+- [Виртуальные машины](#виртуальные-машины)
 - [Сайт](#сайт)
 - [Мониторинг (Zabbix)](#мониторинг-zabbix)
 - [Логи (Elasticsearch + Kibana)](#логи-elasticsearch--kibana)
 - [Резервное копирование](#резервное-копирование)
 - [Terraform-файлы проекта](#terraform-файлы-проекта)
+- [Ansible-плейбуки](#ansible-плейбуки)
 
 ---
 
@@ -239,15 +241,18 @@ curl -v http://158.160.216.69:80
 
 ## Terraform-файлы проекта
 
+
+Все манифесты расположены в директории [terraform/](terraform/):
+
 | Файл | Описание |
 |---|---|
-| main.tf | Провайдер Yandex Cloud |
-| network.tf | VPC, подсети, NAT-шлюз, таблица маршрутизации |
-| security.tf | Security Groups для всех сервисов |
-| vms.tf | Виртуальные машины (6 шт.) |
-| alb.tf | Target Group, Backend Group, HTTP Router, ALB |
-| snapshots.tf | Расписание снимков дисков |
-| outputs.tf | Выходные данные (IP-адреса) |
+| [main.tf](terraform/main.tf) | Провайдер Yandex Cloud |
+| [network.tf](terraform/network.tf) | VPC, подсети, NAT-шлюз, таблица маршрутизации |
+| [security.tf](terraform/security.tf) | Security Groups для всех сервисов |
+| [vms.tf](terraform/vms.tf) | Виртуальные машины (6 шт.) |
+| [alb.tf](terraform/alb.tf) | Target Group, Backend Group, HTTP Router, ALB |
+| [snapshots.tf](terraform/snapshots.tf) | Расписание снимков дисков |
+| [outputs.tf](terraform/outputs.tf) | Выходные данные (IP-адреса) |
 
 ## Выходные данные Terraform
 
@@ -263,16 +268,17 @@ elastic_internal_ip = "192.168.20.25"
 
 ## Ansible-плейбуки
 
+Все плейбуки расположены в директории [ansible/](ansible/):
+
 | Плейбук | Описание |
 |---|---|
-| nginx.yml | Установка nginx на web-1 и web-2 |
-| zabbix.yml | Установка Zabbix Server + Frontend + PostgreSQL |
-| zabbix-db.yml | Создание БД и импорт схемы Zabbix |
-| zabbix-agents.yml | Установка Zabbix Agent на все ВМ |
-| elastic.yml | Установка и настройка Elasticsearch |
-| kibana.yml | Установка и настройка Kibana |
-| filebeat.yml | Установка Filebeat на веб-серверы |
-
+| [hosts.ini](ansible/hosts.ini) | Инвентарь хостов |
+| [nginx.yml](ansible/nginx.yml) | Установка nginx на web-1 и web-2 |
+| [zabbix.yml](ansible/zabbix.yml) | Установка Zabbix Server + Frontend + PostgreSQL |
+| [zabbix-agents.yml](ansible/zabbix-agents.yml) | Установка Zabbix Agent на все ВМ |
+| [elastic.yml](ansible/elastic.yml) | Установка и настройка Elasticsearch |
+| [kibana.yml](ansible/kibana.yml) | Установка и настройка Kibana |
+| [filebeat.yml](ansible/filebeat.yml) | Установка Filebeat на веб-серверы |
 ---
 
 ## Доступ к ресурсам
