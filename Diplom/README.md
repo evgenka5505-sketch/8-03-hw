@@ -257,9 +257,9 @@ curl -v http://158.160.216.69:80
 ## Выходные данные Terraform
 
 ```
-bastion_public_ip   = "51.250.73.102"
-zabbix_public_ip    = "89.169.154.238"
-kibana_public_ip    = "51.250.78.121"
+bastion_public_ip   = "93.77.182.96"
+zabbix_public_ip    = "51.250.65.14"
+kibana_public_ip    = "89.169.135.16"
 alb_public_ip       = "158.160.216.69"
 web1_internal_ip    = "192.168.20.16"
 web2_internal_ip    = "192.168.21.34"
@@ -286,5 +286,5 @@ elastic_internal_ip = "192.168.20.25"
 | Ресурс | URL |
 |---|---|
 | Сайт (ALB) | http://158.160.216.69 |
-| Zabbix | http://89.169.154.238/zabbix (Admin / zabbix) |
-| Kibana | http://51.250.78.121:5601 |
+| Zabbix | http://51.250.65.14/zabbix (Admin / zabbix) |
+| Kibana | http://89.169.135.16:5601 |
