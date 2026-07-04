@@ -1,0 +1,37 @@
+---
+- hosts: web:elastic:kibana
+  become: yes
+  tasks:
+    - name: Download Zabbix repo
+      get_url:
+        url: https://repo.zabbix.com/zabbix/7.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_7.0+ubuntu22.04_all.deb
+        dest: /tmp/zabbix-release.deb
+
+    - name: Install Zabbix repo
+      apt:
+        deb: /tmp/zabbix-release.deb
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Zabbix agent
+      apt:
+        name: zabbix-agent
+        state: present
+
+    - name: Configure Zabbix agent
+      lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      loop:
+        - { regexp: '^Server=', line: 'Server=192.168.10.25' }
+        - { regexp: '^ServerActive=', line: 'ServerActive=192.168.10.25' }
+        - { regexp: '^Hostname=', line: 'Hostname={{ inventory_hostname }}' }
+
+    - name: Restart Zabbix agent
+      service:
+        name: zabbix-agent
+        state: restarted
+        enabled: yes

@@ -1,0 +1,64 @@
+---
+- hosts: web
+  become: yes
+  tasks:
+    - name: Install dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - gpg
+        state: present
+        update_cache: yes
+
+    - name: Add Elasticsearch GPG key
+      shell: |
+        wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+      args:
+        creates: /usr/share/keyrings/elasticsearch-keyring.gpg
+
+    - name: Add Elastic repo
+      copy:
+        content: "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://mirror.yandex.ru/mirrors/elastic/8 stable main\n"
+        dest: /etc/apt/sources.list.d/elastic-8.x.list
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Filebeat
+      apt:
+        name: filebeat
+        state: present
+
+    - name: Configure Filebeat
+      copy:
+        content: |
+          filebeat.inputs:
+            - type: log
+              enabled: true
+              paths:
+                - /var/log/nginx/access.log
+              fields:
+                type: nginx-access
+
+            - type: log
+              enabled: true
+              paths:
+                - /var/log/nginx/error.log
+              fields:
+                type: nginx-error
+
+          output.elasticsearch:
+            hosts: ["http://192.168.20.25:9200"]
+            index: "filebeat-%{+yyyy.MM.dd}"
+
+          setup.ilm.enabled: false
+          setup.template.name: "filebeat"
+          setup.template.pattern: "filebeat-*"
+        dest: /etc/filebeat/filebeat.yml
+
+    - name: Start Filebeat
+      service:
+        name: filebeat
+        state: restarted
+        enabled: yes

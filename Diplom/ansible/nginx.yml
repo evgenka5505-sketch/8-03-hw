@@ -1,0 +1,28 @@
+---
+- hosts: web
+  become: yes
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Create index page
+      copy:
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head><title>Diplom - {{ inventory_hostname }}</title></head>
+          <body>
+          <h1>Hello from {{ inventory_hostname }}</h1>
+          <p>Server IP: {{ ansible_host }}</p>
+          </body>
+          </html>
+        dest: /var/www/html/index.html
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: yes

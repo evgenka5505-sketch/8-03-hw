@@ -1,0 +1,45 @@
+---
+- hosts: kibana
+  become: yes
+  tasks:
+    - name: Install dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - gpg
+        state: present
+        update_cache: yes
+
+    - name: Add Elasticsearch GPG key
+      shell: |
+        wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+      args:
+        creates: /usr/share/keyrings/elasticsearch-keyring.gpg
+
+    - name: Add Elastic repo
+      copy:
+        content: "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://mirror.yandex.ru/mirrors/elastic/8 stable main\n"
+        dest: /etc/apt/sources.list.d/elastic-8.x.list
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Kibana
+      apt:
+        name: kibana
+        state: present
+
+    - name: Configure Kibana
+      copy:
+        content: |
+          server.port: 5601
+          server.host: "0.0.0.0"
+          elasticsearch.hosts: ["http://192.168.20.25:9200"]
+        dest: /etc/kibana/kibana.yml
+
+    - name: Start Kibana
+      service:
+        name: kibana
+        state: restarted
+        enabled: yes

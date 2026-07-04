@@ -1,0 +1,55 @@
+---
+- hosts: elastic
+  become: yes
+  tasks:
+    - name: Install dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - gpg
+        state: present
+        update_cache: yes
+
+    - name: Add Elasticsearch GPG key
+      shell: |
+        wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+      args:
+        creates: /usr/share/keyrings/elasticsearch-keyring.gpg
+
+    - name: Add Elasticsearch repo
+      copy:
+        content: "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://mirror.yandex.ru/mirrors/elastic/8 stable main\n"
+        dest: /etc/apt/sources.list.d/elastic-8.x.list
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Elasticsearch
+      apt:
+        name: elasticsearch
+        state: present
+
+    - name: Configure Elasticsearch
+      copy:
+        content: |
+          cluster.name: diplom-cluster
+          node.name: elastic
+          network.host: 0.0.0.0
+          discovery.type: single-node
+          xpack.security.enabled: false
+          path.logs: /var/log/elasticsearch
+          path.data: /var/lib/elasticsearch
+        dest: /etc/elasticsearch/elasticsearch.yml
+
+    - name: Remove stale keystore entries
+      shell: |
+        /usr/share/elasticsearch/bin/elasticsearch-keystore remove xpack.security.transport.ssl.keystore.secure_password 2>/dev/null || true
+        /usr/share/elasticsearch/bin/elasticsearch-keystore remove xpack.security.transport.ssl.truststore.secure_password 2>/dev/null || true
+        /usr/share/elasticsearch/bin/elasticsearch-keystore remove xpack.security.http.ssl.keystore.secure_password 2>/dev/null || true
+
+    - name: Start Elasticsearch
+      service:
+        name: elasticsearch
+        state: restarted
+        enabled: yes
