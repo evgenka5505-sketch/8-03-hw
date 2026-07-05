@@ -35,7 +35,7 @@
         content: |
           server.port: 5601
           server.host: "0.0.0.0"
-          elasticsearch.hosts: ["http://192.168.20.25:9200"]
+          elasticsearch.hosts: ["http://{{ hostvars['elastic']['ansible_host'] }}:9200"]
         dest: /etc/kibana/kibana.yml
 
     - name: Start Kibana
